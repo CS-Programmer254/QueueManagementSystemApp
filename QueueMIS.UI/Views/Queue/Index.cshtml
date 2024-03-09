@@ -1,0 +1,123 @@
+﻿@model List<PatientBooking>
+
+<div class="row">
+    <div class="col">
+        <h1>Patients in Queue</h1>
+        <div class="table-wrapper-scroll-y my-custom-scrollbar">
+            <table class="table table-bordered table-striped mb-0">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Booking Time</th>
+                        <th>Service Type</th>
+                        <th>IsServed</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var patient in Model)
+                    {
+                        if (patient.IsServed == "Not Yet Served")
+                        {
+                            <tr>
+                                <td>@patient.PatientName</td>
+                                <td>@patient.EmailAddress</td>
+                                <td>@patient.BookingTime</td>
+                                <td>@patient.ServiceType</td>
+                                <td>@patient.IsServed</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    @if (Model.Any(p => p.IsServed == "Not Yet Served"))
+    {
+        <div class="row">
+            <div class="col">
+                <h3>Next Patient</h3>
+                <form asp-action="Next" asp-route-patientId="@Model.FirstOrDefault(p =>p.IsServed=="Not Yet Served")?.Id">
+                    <button class="btn btn-dark" type="submit">Next</button>
+                </form>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col">
+                <h5>Queue is empty</h5>
+            </div>
+        </div>
+    }
+
+
+    <div class="col">
+        <h1>Served Patients</h1>
+        <div class="table-wrapper-scroll-y my-custom-scrollbar">
+            <table class="table table-bordered table-striped mb-0">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Booking Time</th>
+                        <th>Service Type</th>
+                        <th>IsServed</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var patient in Model)
+                    {
+                        if (patient.IsServed == "Served")
+                        {
+                            <tr>
+                                <td>@patient.PatientName</td>
+                                <td>@patient.EmailAddress</td>
+                                <td>@patient.BookingTime</td>
+                                <td>@patient.ServiceType</td>
+                                <td>@patient.IsServed</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@* Custom CSS for scrollbar *@
+<style>
+    .table-wrapper-scroll-y {
+        display: block;
+        max-height: 150px; /* Adjust height as needed */
+        overflow-y: auto;
+        -ms-overflow-style: -ms-autohiding-scrollbar; /* Hide scrollbar in IE Edge */
+    }
+
+    /* Optional: Custom scrollbar styling */
+    .my-custom-scrollbar {
+        position: relative;
+        max-height: 200px; /* Same as .table-wrapper-scroll-y max-height */
+        overflow: auto;
+    }
+
+    .table-wrapper-scroll-y::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .table-wrapper-scroll-y::-webkit-scrollbar-track {
+        background-color: #f1f1f1;
+    }
+
+    .table-wrapper-scroll-y::-webkit-scrollbar-thumb {
+        background-color: #888;
+        border-radius: 4px;
+    }
+
+        .table-wrapper-scroll-y::-webkit-scrollbar-thumb:hover {
+            background-color: #555;
+        }
+</style>
+
+

@@ -1,0 +1,54 @@
+﻿@using QueueMIS.Models
+@model IEnumerable<PatientBooking>
+@{
+    ViewData["Title"] = "Manage Queue";
+}
+<div class="row">
+    <div class="col">
+        <h1>Patient Queue View</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <table class="table table-striped table-dark">
+            <thead>
+                <tr>
+                    <th scope="col">Patient Name</th>
+                    <th scope="col">Booking Time</th>
+                    <th scope="col">Service Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var booking in Model)
+                {
+                    <tr>
+                        <td>@booking.PatientName</td>
+                        <td>@booking.BookingTime</td>
+                        <td>@booking.ServiceType</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<partial name="_Notification" />
+
+<h2>Add Booking Now</h2>
+<h6>Booking Time:@DateTime.Now</h6>
+<form asp-controller="Booking" asp-action="AddBooking" method="post">
+    <label for="patientName">Patient Name:</label>
+    <input type="text" id="patientName" name="patientName" required><br /><br />
+    <label for="toEmail">Patient Email:</label>
+    <input type="email" id="toEmail" name="toEmail" required><br /><br />
+    <label for="serviceType">Select Service:</label>
+    <select id="serviceType" name="ServiceType" required>
+        <option value="Dental">Dental</option>
+        <option value="Optical">Optical</option>
+        <option value="Cardio-Vascular">Cardio-Vascular</option>
+        <option value="Physiotherapy">Physiotherapy</option>
+        <option value="Radiology">Radiology</option>
+        <option value="Chemotherapy">Chemotherapy</option>
+    </select>
+    <br /><br />
+    <button type="submit" class="btn btn-primary">Add Booking</button>
+</form>

@@ -1,0 +1,11 @@
+﻿
+<div>
+    @if (ViewBag.MessageSid != null)
+    {
+        <p>SMS sent successfully! Message SID: @ViewBag.MessageSid</p>
+    }
+    else
+    {
+        <p>Failed to send SMS.</p>
+    }
+</div>

@@ -1,0 +1,115 @@
+﻿@model IEnumerable<PatientBooking>
+<div class="d-flex" id="wrapper">
+    <!-- Sidebar -->
+    <div class="bg-dark text-light border-right" id="sidebar-wrapper">
+        <div class="sidebar-heading">Queue Management System</div>
+        <div class="list-group list-group-flush">
+            <a href="#" class="list-group-item list-group-item-action bg-dark text-light">Queue Dashboard</a>
+            <a asp-controller="Booking" asp-action="Index" class="list-group-item list-group-item-action bg-dark text-light">Add Booking</a>
+        </div>
+    </div>
+    <!-- /#sidebar-wrapper -->
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom">
+            <button class="mb-4 btn btn-primary outline-0 border-0" id="menu-toggle">Toggle Menu</button>
+        </nav>
+        <div class="container-fluid">
+            <div class="row pt-5 flex-sm-wrap align-items-sm-center">
+                <div class="col-md-4  col-sm-9 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Patients in Queue</h5>
+                            <p class="card-text">
+                                
+                                @ViewBag.PatientCount
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-9 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Cardio-Vascular Queue</h5>
+                            <p class="card-text"> @ViewBag.PatientWithCardioCount</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-9 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">DentalQueue</h5>
+                            <p class="card-text"> @ViewBag.PatientWithDentalCount</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-9 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">OpticalQueue</h5>
+                            <p class="card-text"> @ViewBag.PatientWithOpticalCount</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-9 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Cancelled Queue Bookings</h5>
+                            <p class="card-text"> 4</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4  col-sm-9 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Serviced Patients</h5>
+                            <p class="card-text">20</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <h3 class="text-dark">Manage Patient Queue</h3>
+                    <table class="table table-striped table-light">
+                       
+                        <thead>
+                            <tr>
+                                <th scope="col">Patient Name</th>
+                                <th scope="col">Patient Email</th>
+                                <th scope="col">Booking Time</th>
+                                <th scope="col">Service Type</th>
+                                <th scope="col">IsServed</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var booking in Model)
+                            {
+                                <tr>
+                                    <td>@booking.PatientName</td>
+                                    <td>@booking.EmailAddress</td>
+                                    <td>@booking.BookingTime</td>
+                                    <td>@booking.ServiceType</td>
+                                    <td>@booking.IsServed</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    $("#menu-toggle").click(function (e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+</script>
+
+

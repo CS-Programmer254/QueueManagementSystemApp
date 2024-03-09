@@ -1,0 +1,41 @@
+﻿@using QueueMIS.Models
+@model IEnumerable<PatientBooking>
+@{
+    ViewData["Title"] = "Queue Management";
+}
+
+<div class="row">
+    <div class="col">
+        <h1>Patient Queue Management</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Patient Name</th>
+                    <th scope="col">Booking Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var booking in Model)
+                {
+                    <tr>
+                        <td>@booking.PatientName</td>
+                        <td>@booking.BookingTime</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<h2>Add Booking</h2>
+<form asp-action="AddBooking" method="post">
+    <label for="patientName">Patient Name:</label>
+    <input type="text" id="patientName" name="patientName" required><br/><br />
+    <label for="bookingTime">Booking Time:</label>
+    <input type="datetime-local" id="bookingTime" name="bookingTime" required><br /><br />
+    <button type="submit" class="btn btn-primary">Add Booking</button>
+</form>
