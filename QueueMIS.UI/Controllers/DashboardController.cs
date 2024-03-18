@@ -14,15 +14,19 @@ namespace QueueMIS.Controllers
         public DashboardController(IBookingManager bookingManager)
         {
             _bookingManager = bookingManager;
-            ViewBag.PatientCount = _bookingManager.CountPatients();
-            ViewBag.PatientWithCardioCount = _bookingManager.PatientsWithServiceType("Cardio-Vascular");
-            ViewBag.PatientWithDentalCount = _bookingManager.PatientsWithServiceType("Dental");
-            ViewBag.PatientWithOpticalCount = _bookingManager.PatientsWithServiceType("Optical");
+            
         }
 
 
         public async Task<IActionResult> Index()
         {
+            ViewBag.PatientCount = _bookingManager.CountPatients();
+            ViewBag.PatientWithCardioCount = _bookingManager.PatientsWithServiceType("Cardio-Vascular");
+            ViewBag.PatientWithDentalCount = _bookingManager.PatientsWithServiceType("Dental");
+            ViewBag.PatientWithOpticalCount = _bookingManager.PatientsWithServiceType("Optical");
+            ViewBag.NumberOfServedPatient = _bookingManager.NumberOfServedPatients("Served");
+            ViewBag.NumberOfNotServedPatient = _bookingManager.NumberOfServedPatients("Not Yet Served");
+
             var bookings = await _bookingManager.GetPatientBookingsInQueueAsync();
             return View(bookings);
         }

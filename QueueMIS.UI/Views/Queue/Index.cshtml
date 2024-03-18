@@ -1,84 +1,89 @@
-﻿@model List<PatientBooking>
+﻿@model IEnumerable<PatientBooking>
+@using System.Linq
+
+<div id="patientCarousel" class="carousel slide" data-ride="carousel" data-interval="5000">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <div class="d-block w-100">
+                <h3 class="text-success">Next Patient</h3>
+                <p class="text-danger">@ViewBag.NextPatient?.PatientName</p>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <div class="d-block w-100">
+                <h3 class="text-danger">Second Next Patient</h3>
+                <p class="text-success">@ViewBag.SecondNextPatient?.PatientName</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="d-flex justify-content-end mb-3 row">
+    <form method="get" asp-action="Index" class="form-inline col-md-6">
+        <div class="input-group">
+            <input id="searchText" class="form-control mr-sm-2 col-12" type="search" name="searchText" placeholder="Search" aria-label="Search">
+            <div class="input-group-append">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </div>
+        </div>
+    </form>
+</div>
 
 <div class="row">
-    <div class="col">
-        <h1>Patients in Queue</h1>
-        <div class="table-wrapper-scroll-y my-custom-scrollbar">
-            <table class="table table-bordered table-striped mb-0">
+    <div class="col-md-6">
+        <h2>Not Served Patients</h2><br />
+        <div class="table-responsive table-wrapper-scroll-y my-custom-scrollbar rounded-4">
+            <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Email</th>
+                        <th>Patient Name</th>
                         <th>Booking Time</th>
                         <th>Service Type</th>
-                        <th>IsServed</th>
+                        <th>Email Address</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var patient in Model)
+                    @foreach (var patient in ViewBag.NotServedPatients)
                     {
-                        if (patient.IsServed == "Not Yet Served")
-                        {
-                            <tr>
-                                <td>@patient.PatientName</td>
-                                <td>@patient.EmailAddress</td>
-                                <td>@patient.BookingTime</td>
-                                <td>@patient.ServiceType</td>
-                                <td>@patient.IsServed</td>
-                            </tr>
-                        }
+                        <tr>
+                            <td>@patient.PatientName</td>
+                            <td>@patient.BookingTime</td>
+                            <td>@patient.ServiceType</td>
+                            <td>@patient.EmailAddress</td>
+                            <td>
+                                <button class="btn btn-primary mark-served" data-id="@patient.Id">Mark as Served</button>
+                            </td>
+                        </tr>
                     }
                 </tbody>
             </table>
         </div>
     </div>
-    @if (Model.Any(p => p.IsServed == "Not Yet Served"))
-    {
-        <div class="row">
-            <div class="col">
-                <h3>Next Patient</h3>
-                <form asp-action="Next" asp-route-patientId="@Model.FirstOrDefault(p =>p.IsServed=="Not Yet Served")?.Id">
-                    <button class="btn btn-dark" type="submit">Next</button>
-                </form>
-            </div>
-        </div>
-    }
-    else
-    {
-        <div class="row">
-            <div class="col">
-                <h5>Queue is empty</h5>
-            </div>
-        </div>
-    }
-
-
-    <div class="col">
-        <h1>Served Patients</h1>
-        <div class="table-wrapper-scroll-y my-custom-scrollbar">
-            <table class="table table-bordered table-striped mb-0">
+    <div class="col-md-6">
+        <h2>Served Patients</h2>
+        <br />
+        <div class="table-responsive table-wrapper-scroll-y my-custom-scrollbar rounded-4">
+            <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Email</th>
+                        <th>Patient Name</th>
                         <th>Booking Time</th>
                         <th>Service Type</th>
-                        <th>IsServed</th>
+                        <th>Email Address</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var patient in Model)
+                    @foreach (var patient in ViewBag.ServedPatients)
                     {
-                        if (patient.IsServed == "Served")
-                        {
-                            <tr>
-                                <td>@patient.PatientName</td>
-                                <td>@patient.EmailAddress</td>
-                                <td>@patient.BookingTime</td>
-                                <td>@patient.ServiceType</td>
-                                <td>@patient.IsServed</td>
-                            </tr>
-                        }
+                        <tr>
+                            <td>@patient.PatientName</td>
+                            <td>@patient.BookingTime</td>
+                            <td>@patient.ServiceType</td>
+                            <td>@patient.EmailAddress</td>
+                            <td></td>
+                        </tr>
                     }
                 </tbody>
             </table>
@@ -86,38 +91,43 @@
     </div>
 </div>
 
-@* Custom CSS for scrollbar *@
-<style>
-    .table-wrapper-scroll-y {
-        display: block;
-        max-height: 150px; /* Adjust height as needed */
-        overflow-y: auto;
-        -ms-overflow-style: -ms-autohiding-scrollbar; /* Hide scrollbar in IE Edge */
-    }
+@if (TempData["success"] != null)
+{
+    <div class="alert alert-success" role="alert">@TempData["success"]</div>
+}
 
-    /* Optional: Custom scrollbar styling */
-    .my-custom-scrollbar {
-        position: relative;
-        max-height: 200px; /* Same as .table-wrapper-scroll-y max-height */
-        overflow: auto;
-    }
+<button class="btn btn-success notify-next-patient">Notify Next Patient</button>
 
-    .table-wrapper-scroll-y::-webkit-scrollbar {
-        width: 8px;
-    }
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            $('#patientCarousel').carousel();
 
-    .table-wrapper-scroll-y::-webkit-scrollbar-track {
-        background-color: #f1f1f1;
-    }
+            // Hide the carousel controls
+            $('.carousel-control-prev, .carousel-control-next').css('display', 'none');
 
-    .table-wrapper-scroll-y::-webkit-scrollbar-thumb {
-        background-color: #888;
-        border-radius: 4px;
-    }
+            $('#searchText').on('input', function () {
+                var searchText = $(this).val();
+                $.get('@Url.Action("Index", "Queue")', { searchText: searchText }, function (data) {
+                    $('#notServedPatientTableBody').html(data.notServedPatients);
+                    $('#servedPatientTableBody').html(data.servedPatients);
+                });
+            });
 
-        .table-wrapper-scroll-y::-webkit-scrollbar-thumb:hover {
-            background-color: #555;
-        }
-</style>
+            // Mark as served button click event
+            $('.mark-served').click(function () {
+                var patientId = $(this).data('id');
+                $.post('@Url.Action("MarkAsServed", "Queue")', { patientId: patientId }, function () {
+                    location.reload();
+                });
+            });
 
-
+            // Notify next patient button click event
+            $('.notify-next-patient').click(function () {
+                $.post('@Url.Action("NotifyNextPatient", "Queue")', function () {
+                    location.reload();
+                });
+            });
+        });
+    </script>
+}

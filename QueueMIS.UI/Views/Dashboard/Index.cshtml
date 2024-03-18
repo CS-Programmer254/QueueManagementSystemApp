@@ -6,6 +6,7 @@
         <div class="list-group list-group-flush">
             <a href="#" class="list-group-item list-group-item-action bg-dark text-light">Queue Dashboard</a>
             <a asp-controller="Booking" asp-action="Index" class="list-group-item list-group-item-action bg-dark text-light">Add Booking</a>
+            <a asp-controller="Queue" asp-action="Index" class="list-group-item list-group-item-action bg-dark text-light">Manage Queue</a>
         </div>
     </div>
     <!-- /#sidebar-wrapper -->
@@ -54,8 +55,8 @@
                 <div class="col-md-4 col-sm-9 mb-3">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Cancelled Queue Bookings</h5>
-                            <p class="card-text"> 4</p>
+                            <h5 class="card-title">Not Served Yet</h5>
+                            <p class="card-text">@ViewBag.NumberOfNotServedPatient </p>
                         </div>
                     </div>
                 </div>
@@ -63,7 +64,7 @@
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Serviced Patients</h5>
-                            <p class="card-text">20</p>
+                            <p class="card-text">@ViewBag.NumberOfServedPatient </p>
                         </div>
                     </div>
                 </div>
@@ -71,7 +72,7 @@
             <div class="row">
                 <div class="col">
                     <h3 class="text-dark">Manage Patient Queue</h3>
-                    <table class="table table-striped table-light">
+                    <table class="table table-striped table-light table-wrapper-scroll-y my-custom-scrollbar">
                        
                         <thead>
                             <tr>

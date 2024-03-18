@@ -17,6 +17,7 @@ namespace QueueMIS.Services
             {
                 var email = new MimeMessage();
                 email.Sender = MailboxAddress.Parse(_mailSettings.Mail);
+                email.From.Add(new MailboxAddress(_mailSettings.DisplayName, _mailSettings.Mail));
                 email.To.Add(MailboxAddress.Parse(toEmail));
                 email.Subject = "Queue Booking";
                 var builder = new BodyBuilder();

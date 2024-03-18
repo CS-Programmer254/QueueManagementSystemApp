@@ -40,6 +40,14 @@ namespace QueueMIS.Services
             return bookings;
         }
 
+        public int NumberOfServedPatients(string isServed)
+        {
+
+            int count = _queueDbContext.PatientBookings.Where(n => n.IsServed==isServed).Count();
+            return count;
+
+        }
+
         public int PatientsWithServiceType(string serviceType)
         {
             int patientWithServiceTypeCount = _queueDbContext.PatientBookings.Where(p=>p.ServiceType==serviceType).Count();

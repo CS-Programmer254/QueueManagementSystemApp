@@ -10,6 +10,7 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<QueueDbContext>(options => options.UseSqlServer(connectionString));
 builder.Services.AddScoped<IBookingManager, BookingManager>();
 builder.Services.AddScoped<ISendMail,SendMail>();
+builder.Services.AddScoped<ISmsService,SmsService>();
 builder.Services.Configure<TwilioSettings>(builder.Configuration.GetSection("Twilio"));
 builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
 builder.Services.AddControllersWithViews();

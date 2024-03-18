@@ -69,3 +69,61 @@ body {
     .table tbody tr:hover {
         background-color: rgba(255, 255, 255, 0.8); 
     }
+
+.table-wrapper-scroll-y {
+    display: block;
+    max-height:250px; /* Adjust height as needed */
+    overflow-y: auto;
+    -ms-overflow-style: -ms-autohiding-scrollbar; /* Hide scrollbar in IE Edge */
+}
+
+/* Optional: Custom scrollbar styling */
+.my-custom-scrollbar {
+    position: relative;
+    max-height:250px; /* Same as .table-wrapper-scroll-y max-height */
+    overflow: auto;
+}
+
+.table-wrapper-scroll-y::-webkit-scrollbar {
+    width: 8px;
+}
+
+.table-wrapper-scroll-y::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+}
+
+.table-wrapper-scroll-y::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 4px;
+}
+
+    .table-wrapper-scroll-y::-webkit-scrollbar-thumb:hover {
+        background-color: #555;
+    }
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-image: none; /* Remove default arrow background */
+    color: transparent; /* Make arrow icons transparent */
+}
+/* Custom CSS */
+.table-hover tbody tr:hover {
+    background-color: #f5f5f5;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.mark-served:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s;
+}
+
+.notify-next-patient {
+    margin-top: 20px;
+    transition: transform 0.3s;
+}
+
+    .notify-next-patient:hover {
+        transform: scale(1.05);
+    }
+

@@ -10,6 +10,7 @@ namespace QueueMIS.Services
         public Task<IEnumerable<PatientBooking>> GetPatientBookingsInQueueAsync();
         public int CountPatients();
         public int PatientsWithServiceType(string serviceType);
+        public int NumberOfServedPatients(string isServed);
       
     }
 }
